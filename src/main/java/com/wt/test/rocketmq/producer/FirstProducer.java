@@ -13,11 +13,11 @@ import org.apache.rocketmq.remoting.common.RemotingHelper;
 public class FirstProducer {
     public static void main(String[] args) {
         DefaultMQProducer producer = new DefaultMQProducer("firstGroup");
+        producer.setInstanceName("firstProducer");
         producer.setNamesrvAddr("192.168.197.128:9876");
         try {
             producer.start();
             System.out.println("producer start.");
-            //producer.createTopic("firstTopic","firstTopic",0);
             System.out.println("sending message.");
             for (int i = 0; i < 100; i++) {
                 Message message = new Message("firstTopic", ("Hello World " + i).getBytes(RemotingHelper.DEFAULT_CHARSET));

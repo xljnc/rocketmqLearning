@@ -15,10 +15,10 @@ import java.util.List;
  * @date 2018-11-06 14:50
  * @description
  */
-public class FirstConsumer {
+public class SecondConsumer {
     public static void main(String[] args) {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("firstGroup");
-        consumer.setNamesrvAddr("192.168.197.129:9876");
+        consumer.setNamesrvAddr("192.168.197.128:9876");
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         try {
             consumer.subscribe("firstTopic", "*");
@@ -33,7 +33,6 @@ public class FirstConsumer {
                         }
                     });
             consumer.start();
-            consumer.fetchSubscribeMessageQueues("firstTopic");
         } catch (Exception e) {
             e.printStackTrace();
         }

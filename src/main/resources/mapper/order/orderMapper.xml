@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wt.test.rocketmq.dao.order.OrderDao">
+
+    <resultMap id="BaseResultMap" type="com.wt.test.rocketmq.domain.order.Order">
+        <result column="id" property="id"/>
+        <result column="info" property="info"/>
+    </resultMap>
+
+    <select id="insert"  parameterType="com.wt.test.rocketmq.domain.order.Order">
+       insert into order_info(info)
+       values(#{info,jdbcType=VARCHAR})
+    </select>
+</mapper>
+

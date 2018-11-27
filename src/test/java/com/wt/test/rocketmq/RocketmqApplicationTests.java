@@ -37,7 +37,7 @@ public class RocketmqApplicationTests {
     @Test
     public void testAccountAdd() {
         Account account = new Account();
-        account.setMount(new BigDecimal(1000.00));
+        account.setMount(new BigDecimal(100.00));
         accountService.addAccount(account);
         System.out.println("Id:" + account.getId());
     }

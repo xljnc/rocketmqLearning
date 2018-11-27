@@ -12,3 +12,7 @@ spring:
         password: 3edcCDE#
         driverClassName: com.mysql.cj.jdbc.Driver
         logSlowSql: true
+
+rocketmq:
+  nameserver:
+    url: 192.168.197.128:9876

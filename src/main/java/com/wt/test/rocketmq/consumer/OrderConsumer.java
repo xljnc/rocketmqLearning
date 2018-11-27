@@ -10,6 +10,7 @@ import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -26,9 +27,12 @@ public class OrderConsumer {
     @Autowired
     private AccountService accountService;
 
+    @Value("${rocketmq.nameserver.url}")
+    private String nameserverUrl;
+
     public void finishPayment() {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer();
-        consumer.setNamesrvAddr("192.168.197.128:9876");
+        consumer.setNamesrvAddr(nameserverUrl);
         consumer.setInstanceName("secondConsumer");
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         try {
@@ -37,8 +41,9 @@ public class OrderConsumer {
             consumer.registerMessageListener(new MessageListenerConcurrently() {
                 @Override
                 public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
+                    System.out.println("start account deal.");
                     Account account = new Account();
-                    account.setId(11);
+                    account.setId(1);
                     account.setMount(BigDecimal.valueOf(100.00));
                     accountService.updateAccount(account);
                     return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;

@@ -8,6 +8,6 @@ import com.wt.test.rocketmq.domain.account.Account;
  * @description
  */
 public interface AccountService {
-    Integer addAccount(Account account);
-    int updateAccount(Account account);
+    void addAccount(Account account);
+    void updateAccount(Account account);
 }

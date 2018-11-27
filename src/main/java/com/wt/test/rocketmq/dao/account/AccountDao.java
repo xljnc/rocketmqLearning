@@ -8,7 +8,7 @@ import com.wt.test.rocketmq.domain.account.Account;
  * @description 账号类
  */
 public interface AccountDao {
-    Integer insert(Account account);
+    void insert(Account account);
 
-    Integer update(Account account);
+    void update(Account account);
 }

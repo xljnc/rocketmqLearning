@@ -1,6 +1,7 @@
 package com.wt.test.rocketmq;
 
 import com.wt.test.rocketmq.domain.account.Account;
+import com.wt.test.rocketmq.domain.order.Order;
 import com.wt.test.rocketmq.service.account.AccountService;
 import com.wt.test.rocketmq.service.order.OrderService;
 import org.junit.Test;
@@ -31,8 +32,17 @@ public class RocketmqApplicationTests {
     public void testAccountAdd() {
         Account account = new Account();
         account.setMount(new BigDecimal(1000.00));
-        Integer id = accountService.addAccount(account);
-        System.out.println("Id:" + id);
+        accountService.addAccount(account);
+        System.out.println("Id:" + account.getId());
+    }
+
+    @Test
+    @Transactional
+    public void testOrderAdd() {
+        Order order = new Order();
+        order.setInfo("test Order");
+        orderService.addOrder(order);
+        System.out.println("Id:" + order.getId());
     }
 
 }

@@ -18,13 +18,13 @@ public class AccountServiceImpl implements AccountService {
     private AccountDao accountDao;
 
     @Override
-    public Integer addAccount(Account account) {
-        return accountDao.insert(account);
+    public void addAccount(Account account) {
+        accountDao.insert(account);
     }
 
     @Override
-    public int updateAccount(Account account) {
-        return accountDao.update(account);
+    public void updateAccount(Account account) {
+        accountDao.update(account);
     }
 
 }

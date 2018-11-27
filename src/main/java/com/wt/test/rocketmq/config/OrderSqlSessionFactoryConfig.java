@@ -6,8 +6,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
 
@@ -24,10 +26,15 @@ public class OrderSqlSessionFactoryConfig {
     @Qualifier("orderDataSource")
     private DataSource orderDataSource;
 
+    @Value("${mybatis.mapper-locations}")
+    private String mapperLocations;
+
     @Bean
     public SqlSessionFactory orderSqlSessionFactory() throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(orderDataSource);
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        factoryBean.setMapperLocations(resolver.getResources(mapperLocations));
         return factoryBean.getObject();
     }
 

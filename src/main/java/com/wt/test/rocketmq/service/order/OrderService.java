@@ -8,5 +8,5 @@ import com.wt.test.rocketmq.domain.order.Order;
  * @description
  */
 public interface OrderService {
-    Integer addOrder(Order order);
+    void addOrder(Order order);
 }

@@ -7,9 +7,9 @@
         <result column="info" property="info"/>
     </resultMap>
 
-    <select id="insert"  parameterType="com.wt.test.rocketmq.domain.order.Order">
+    <insert id="insert"  parameterType="com.wt.test.rocketmq.domain.order.Order" >
        insert into order_info(info)
        values(#{info,jdbcType=VARCHAR})
-    </select>
+    </insert>
 </mapper>
 

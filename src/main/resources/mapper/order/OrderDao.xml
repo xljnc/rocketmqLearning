@@ -3,11 +3,12 @@
 <mapper namespace="com.wt.test.rocketmq.dao.order.OrderDao">
 
     <resultMap id="BaseResultMap" type="com.wt.test.rocketmq.domain.order.Order">
-        <result column="id" property="id"/>
+        <id column="id" property="id"/>
         <result column="info" property="info"/>
     </resultMap>
 
-    <insert id="insert"  parameterType="com.wt.test.rocketmq.domain.order.Order" >
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true"
+            parameterType="com.wt.test.rocketmq.domain.order.Order">
        insert into order_info(info)
        values(#{info,jdbcType=VARCHAR})
     </insert>

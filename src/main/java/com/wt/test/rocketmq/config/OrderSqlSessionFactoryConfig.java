@@ -34,7 +34,7 @@ public class OrderSqlSessionFactoryConfig {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(orderDataSource);
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        factoryBean.setMapperLocations(resolver.getResources(mapperLocations));
+       factoryBean.setMapperLocations(resolver.getResources(mapperLocations));
         return factoryBean.getObject();
     }
 

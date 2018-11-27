@@ -18,7 +18,7 @@ import java.util.List;
 public class FirstConsumer {
     public static void main(String[] args) {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("firstGroup");
-        consumer.setNamesrvAddr("192.168.197.129:9876");
+        consumer.setNamesrvAddr("192.168.197.128:9876");
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         try {
             consumer.subscribe("firstTopic", "*");

@@ -5,6 +5,7 @@ import com.wt.test.rocketmq.domain.order.Order;
 import com.wt.test.rocketmq.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Xljnc
@@ -17,7 +18,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
 
     @Override
+    @Transactional
     public void addOrder(Order order) {
-         orderDao.insert(order);
+        orderDao.insert(order);
     }
 }

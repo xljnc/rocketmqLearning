@@ -8,6 +8,7 @@ import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -17,23 +18,30 @@ import java.util.List;
  */
 public class FirstConsumer {
     public static void main(String[] args) {
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("firstGroup");
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("thirdGroup");
         consumer.setNamesrvAddr("192.168.197.128:9876");
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         try {
             consumer.subscribe("firstTopic", "*");
-            consumer.setMessageModel(MessageModel.BROADCASTING);
+            consumer.setMessageModel(MessageModel.CLUSTERING);
             consumer.registerMessageListener(
                     new MessageListenerConcurrently() {
                         @Override
                         public ConsumeConcurrentlyStatus consumeMessage(final List<MessageExt> msgs,
                                                                         final ConsumeConcurrentlyContext context) {
-                            System.out.println(Thread.currentThread().getName() + " receive new message:" + msgs);
+                            for (MessageExt messageExt : msgs) {
+                                try {
+                                    System.out.println(Thread.currentThread().getName() + " receive new message:" + new String(messageExt.getBody(),"utf-8"));
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
                         }
                     });
+            consumer.setConsumeMessageBatchMaxSize(10);
             consumer.start();
-            consumer.fetchSubscribeMessageQueues("firstTopic");
+//            consumer.fetchSubscribeMessageQueues("firstTopic");
         } catch (Exception e) {
             e.printStackTrace();
         }

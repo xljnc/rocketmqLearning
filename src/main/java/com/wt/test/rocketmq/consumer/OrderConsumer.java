@@ -31,13 +31,14 @@ public class OrderConsumer {
     private String nameserverUrl;
 
     public void finishPayment() {
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer();
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("secondGroup");
         consumer.setNamesrvAddr(nameserverUrl);
         consumer.setInstanceName("secondConsumer");
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         try {
             consumer.subscribe("secondTopic", "*");
             consumer.setMessageModel(MessageModel.CLUSTERING);
+            final boolean[] result = {false};
             consumer.registerMessageListener(new MessageListenerConcurrently() {
                 @Override
                 public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
@@ -46,9 +47,16 @@ public class OrderConsumer {
                     account.setId(1);
                     account.setMount(BigDecimal.valueOf(100.00));
                     accountService.updateAccount(account);
+                    result[0] = true;
                     return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
                 }
             });
+            consumer.start();
+            System.out.println("consumer start.");
+            while(!result[0]){
+                System.out.println("no order income");
+                Thread.sleep(1000);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

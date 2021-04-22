@@ -1,18 +1,3 @@
-spring:
-  datasource:
-      account:
-        jdbcUrl: jdbc:mysql://192.168.197.128:3306/account1?useUnicode=true&characterEncoding=utf-8
-        username: mysql
-        password: 3edcCDE#
-        driverClassName: com.mysql.cj.jdbc.Driver
-        logSlowSql: true
-      order:
-        jdbcUrl: jdbc:mysql://192.168.197.128:3306/order1?useUnicode=true&characterEncoding=utf-8
-        username: mysql
-        password: 3edcCDE#
-        driverClassName: com.mysql.cj.jdbc.Driver
-        logSlowSql: true
-
 rocketmq:
   nameserver:
     url: 192.168.197.128:9876

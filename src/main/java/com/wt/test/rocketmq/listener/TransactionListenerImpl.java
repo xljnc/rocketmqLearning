@@ -1,7 +1,6 @@
 package com.wt.test.rocketmq.listener;
 
 import com.wt.test.rocketmq.domain.order.Order;
-import com.wt.test.rocketmq.service.order.OrderService;
 import org.apache.rocketmq.client.producer.LocalTransactionState;
 import org.apache.rocketmq.client.producer.TransactionListener;
 import org.apache.rocketmq.common.message.Message;
@@ -20,8 +19,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TransactionListenerImpl implements TransactionListener {
     private ConcurrentHashMap<String, LocalTransactionState> localTrans = new ConcurrentHashMap<>(16);
 
-    @Autowired
-    private OrderService orderService;
 
     @Override
     public LocalTransactionState executeLocalTransaction(Message msg, Object arg) {
@@ -29,7 +26,6 @@ public class TransactionListenerImpl implements TransactionListener {
             System.out.println("arg is:" + arg);
             Order order = new Order();
             order.setInfo("test order");
-            orderService.addOrder(order);
             localTrans.put(msg.getTransactionId(), LocalTransactionState.COMMIT_MESSAGE);
             return LocalTransactionState.COMMIT_MESSAGE;
         } catch (Exception e) {

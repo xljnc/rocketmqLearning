@@ -10,17 +10,17 @@ import org.apache.rocketmq.remoting.common.RemotingHelper;
  * @date 2018-11-06 11:22
  * @description
  */
-public class FirstProducer {
+public class SecondProducer {
     public static void main(String[] args) {
         DefaultMQProducer producer = new DefaultMQProducer("GID-WT-producer-Test");
         producer.setInstanceName("GID-WT-producer-Test");
         producer.setNamesrvAddr("192.168.54.112:9876");
         try {
             producer.start();
-            System.out.println("First producer start.");
+            System.out.println("Second producer start.");
             System.out.println("sending message.");
             for (int i = 0; i < 100; i++) {
-                Message message = new Message("Topic-WT-test", ("Hello World " + i).getBytes(RemotingHelper.DEFAULT_CHARSET));
+                Message message = new Message("Topic-WT-test2", ("Hello World " + i).getBytes(RemotingHelper.DEFAULT_CHARSET));
                 SendResult sendResult = producer.send(message);
                 System.out.printf("%s%n", sendResult);
             }

@@ -1,5 +1,6 @@
 package com.wt.test.rocketmq.consumer;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
@@ -16,13 +17,14 @@ import java.util.List;
  * @date 2018-11-06 14:50
  * @description
  */
+@Slf4j
 public class FirstConsumer {
     public static void main(String[] args) {
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("fourthGroup");
-        consumer.setNamesrvAddr("192.168.197.128:9876");
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("GID-WT-consumer-Test");
+        consumer.setNamesrvAddr("192.168.54.112:9876");
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         try {
-            consumer.subscribe("firstTopic", "*");
+            consumer.subscribe("Topic-WT-test", "*");
             consumer.setMessageModel(MessageModel.CLUSTERING);
             consumer.registerMessageListener(
                     new MessageListenerConcurrently() {
@@ -31,7 +33,7 @@ public class FirstConsumer {
                                                                         final ConsumeConcurrentlyContext context) {
                             for (MessageExt messageExt : msgs) {
                                 try {
-                                    System.out.println(Thread.currentThread().getName() + " receive new message:" + new String(messageExt.getBody(),"utf-8"));
+                                    System.out.println(Thread.currentThread().getName() + " receive new message:" + new String(messageExt.getBody(), "utf-8"));
                                 } catch (UnsupportedEncodingException e) {
                                     e.printStackTrace();
                                 }
@@ -41,6 +43,7 @@ public class FirstConsumer {
                     });
             consumer.setConsumeMessageBatchMaxSize(10);
             consumer.start();
+            log.info("First consumer started.");
 //            consumer.fetchSubscribeMessageQueues("firstTopic");
         } catch (Exception e) {
             e.printStackTrace();

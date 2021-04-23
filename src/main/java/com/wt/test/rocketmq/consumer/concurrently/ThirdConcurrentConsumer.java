@@ -1,4 +1,4 @@
-package com.wt.test.rocketmq.consumer;
+package com.wt.test.rocketmq.consumer.concurrently;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
@@ -18,13 +18,13 @@ import java.util.List;
  * @description
  */
 @Slf4j
-public class FirstConsumer {
+public class ThirdConcurrentConsumer {
     public static void main(String[] args) {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("GID-WT-consumer-Test");
         consumer.setNamesrvAddr("192.168.54.112:9876");
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         try {
-            consumer.subscribe("Topic-WT-test", "*");
+            consumer.subscribe("Topic-WT-test2", "*");
             consumer.setMessageModel(MessageModel.CLUSTERING);
             consumer.registerMessageListener(
                     new MessageListenerConcurrently() {
@@ -43,7 +43,7 @@ public class FirstConsumer {
                     });
             consumer.setConsumeMessageBatchMaxSize(10);
             consumer.start();
-            log.info("First consumer started.");
+            log.info("Third consumer started.");
 //            consumer.fetchSubscribeMessageQueues("firstTopic");
         } catch (Exception e) {
             e.printStackTrace();

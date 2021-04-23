@@ -1,10 +1,8 @@
-package com.wt.test.rocketmq.consumer;
+package com.wt.test.rocketmq.consumer.orderly;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
-import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import org.apache.rocketmq.client.consumer.listener.*;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
@@ -18,7 +16,7 @@ import java.util.List;
  * @description
  */
 @Slf4j
-public class SecondConsumer {
+public class FirstOrderlyConsumer {
     public static void main(String[] args) {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("GID-WT-consumer-Test");
         consumer.setNamesrvAddr("192.168.54.112:9876");
@@ -27,26 +25,23 @@ public class SecondConsumer {
             consumer.subscribe("Topic-WT-test", "*");
             consumer.setMessageModel(MessageModel.CLUSTERING);
             consumer.registerMessageListener(
-                    new MessageListenerConcurrently() {
+                    new MessageListenerOrderly() {
                         @Override
-                        public ConsumeConcurrentlyStatus consumeMessage(final List<MessageExt> msgs,
-                                                                        final ConsumeConcurrentlyContext context) {
+                        public ConsumeOrderlyStatus consumeMessage(final List<MessageExt> msgs,
+                                                                   final ConsumeOrderlyContext context) {
                             for (MessageExt messageExt : msgs) {
                                 try {
                                     System.out.println(Thread.currentThread().getName() + " receive new message:" + new String(messageExt.getBody(), "utf-8"));
-                                    System.out.println(Thread.currentThread().getName() + " sleep 3000ms.");
-                                    Thread.sleep(3000L);
-                                    System.out.println(Thread.currentThread().getName() + " awake");
-                                } catch (Exception e) {
+                                } catch (UnsupportedEncodingException e) {
                                     e.printStackTrace();
                                 }
                             }
-                            return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+                            return ConsumeOrderlyStatus.SUCCESS;
                         }
                     });
             consumer.setConsumeMessageBatchMaxSize(10);
             consumer.start();
-            log.info("Second consumer started.");
+            log.info("First consumer started.");
 //            consumer.fetchSubscribeMessageQueues("firstTopic");
         } catch (Exception e) {
             e.printStackTrace();

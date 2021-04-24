@@ -11,10 +11,15 @@ import org.apache.rocketmq.remoting.common.RemotingHelper;
  * @description
  */
 public class FirstProducer {
+
+    private static final String namesrvAddr = "127.0.0.1:30876";
+
+    //private static final String namesrvAddr= "192.168.54.112:9876";
+
     public static void main(String[] args) {
         DefaultMQProducer producer = new DefaultMQProducer("GID-WT-producer-Test");
         producer.setInstanceName("GID-WT-producer-Test");
-        producer.setNamesrvAddr("192.168.54.112:9876");
+        producer.setNamesrvAddr(namesrvAddr);
         try {
             producer.start();
             System.out.println("First producer start.");

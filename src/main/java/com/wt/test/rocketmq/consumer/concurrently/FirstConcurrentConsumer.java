@@ -19,9 +19,15 @@ import java.util.List;
  */
 @Slf4j
 public class FirstConcurrentConsumer {
+
+    private static final String namesrvAddr = "127.0.0.1:30876";
+
+//    private static final String namesrvAddr= "192.168.54.112:9876";
+
+
     public static void main(String[] args) {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("GID-WT-consumer-Test");
-        consumer.setNamesrvAddr("192.168.54.112:9876");
+        consumer.setNamesrvAddr(namesrvAddr);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         try {
             consumer.subscribe("Topic-WT-test", "*");
@@ -41,8 +47,8 @@ public class FirstConcurrentConsumer {
                             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
                         }
                     });
-            consumer.setConsumeMessageBatchMaxSize(30);
-            consumer.setPullBatchSize(20);
+//            consumer.setConsumeMessageBatchMaxSize(30);
+//            consumer.setPullBatchSize(20);
             consumer.start();
             log.info("First consumer started.");
 //            consumer.fetchSubscribeMessageQueues("firstTopic");

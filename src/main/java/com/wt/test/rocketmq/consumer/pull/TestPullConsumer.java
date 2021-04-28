@@ -17,9 +17,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class TestPullConsumer {
 
-    private static final String namesrvAddr = "127.0.0.1:30876";
+//    private static final String namesrvAddr = "127.0.0.1:30876";
 
-    //    private static final String namesrvAddr= "192.168.54.112:9876";
+    private static final String namesrvAddr = "192.168.54.112:9876";
 
     private static Map<MessageQueue, Long> offsetTable = new ConcurrentHashMap<>(8);
 

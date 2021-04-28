@@ -6,10 +6,7 @@ import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.common.message.MessageQueue;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -33,11 +30,11 @@ public class TestPullConsumer {
         consumer.setAutoCommit(false);
         consumer.start();
         Collection<MessageQueue> messageQueues = consumer.fetchMessageQueues("Topic-WT-test");
-        consumer.assign(messageQueues);
         if (!CollectionUtils.isEmpty(messageQueues)) {
             while (true) {
                 for (MessageQueue queue : messageQueues) {
                     System.out.printf("Consume from the queue: %s%n \n", queue);
+                    consumer.assign(Arrays.asList(queue));
                     consumer.seek(queue, offsetTable.getOrDefault(queue, 0L));
                     List<MessageExt> messages = consumer.poll(3000L);
                     if (!CollectionUtils.isEmpty(messages)) {

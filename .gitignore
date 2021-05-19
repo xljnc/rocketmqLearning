@@ -26,3 +26,4 @@
 /src/main/resources/application-local.yml
 /.mvn/
 
+/src/main/resources/rebel.xml

@@ -18,8 +18,9 @@ public class FirstProducer {
 
     public static void main(String[] args) {
         DefaultMQProducer producer = new DefaultMQProducer("GID-WT-producer-Test");
-        producer.setInstanceName("GID-WT-producer-Test");
+//        producer.setInstanceName("GID-WT-producer-Test");
         producer.setNamesrvAddr(namesrvAddr);
+        producer.setRetryAnotherBrokerWhenNotStoreOK(true);
         try {
             producer.start();
             System.out.println("First producer start.");

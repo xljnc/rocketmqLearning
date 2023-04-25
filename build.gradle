@@ -1,0 +1,50 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { name "Alibaba central"; url "https://maven.aliyun.com/repository/central" }
+        maven { name "Alibaba public"; url "https://maven.aliyun.com/repository/public" }
+        maven { name "Alibaba jcenter"; url "https://maven.aliyun.com/repository/jcenter" }
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:3.0.6"
+        classpath "com.wt.test:gradle-springboot-plugin:1.0.2-SNAPSHOT"
+    }
+}
+
+group 'com.wt.test'
+version '1.0.0-SNAPSHOT'
+
+ext {
+    springbootVersion = '3.0.6'
+    sourceCompatibility = 17
+    jarArchiveClassifier = ''
+    sourceJarArchiveClassifier = 'sources'
+}
+
+apply plugin: "qiyuSpringBootPlugin"
+
+dependencyManagement {
+    dependencies {
+        dependency group: 'org.projectlombok', name: 'lombok', version: '1.18.26'
+        dependency 'org.apache.rocketmq:rocketmq-client:5.1.0'
+    }
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:${rootProject.ext.springbootVersion}"
+    }
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.apache.rocketmq:rocketmq-client'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+
